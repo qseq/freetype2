@@ -21,6 +21,8 @@
 #include "psobjs.h"
 #include "t1decode.h"
 #include "t1cmap.h"
+#include "cf2ft.h"
+#include "cffdecode.h"
 
 #ifndef T1_CONFIG_OPTION_NO_AFM
 #include "afmparse.h"
@@ -103,6 +105,11 @@
     &t1_cmap_unicode_class_rec
   };
 
+  /*FT_CALLBACK_TABLE_DEF
+  const CFF_Decoder_FuncsRec  cff_decoder_funcs =
+  {
+    //TODO:add rec
+  }*/
 
   static
   const PSAux_Interface  psaux_interface =
