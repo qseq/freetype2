@@ -27,7 +27,7 @@
 #include FT_INTERNAL_HASH_H
 #include FT_INTERNAL_TRUETYPE_TYPES_H
 #include FT_SERVICE_POSTSCRIPT_CMAPS_H
-//TODO(ewaldhew): how to link CFF types ?
+/*TODO(ewaldhew): link cffobjs.h: move it to freetype/internal? */
 
 FT_BEGIN_HEADER
 

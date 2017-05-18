@@ -1787,7 +1787,7 @@
   /*                                                                       */
   /*    hinting :: Whether hinting is active.                              */
   /*                                                                       */
-  static void  //TODO(ewaldhew): why is this static?
+  static void
   cff_builder_init( CFF_Builder*   builder,
                     TT_Face        face,
                     CFF_Size       size,
