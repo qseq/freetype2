@@ -233,6 +233,9 @@ FT_LOCAL_DEF( FT_Error )
     FT_Bool      hinting, scaled, force_scaling;
     CFF_Font     cff  = (CFF_Font)face->extra.data;
 
+    PSAux_Service            psaux         = cff->psaux;
+    const CFF_Decoder_Funcs  decoder_funcs = psaux->cff_decoder_funcs;
+
     FT_Matrix    font_matrix;
     FT_Vector    font_offset;
 
@@ -430,8 +433,8 @@ FT_LOCAL_DEF( FT_Error )
       FT_ULong  charstring_len;
 
 
-      cff_decoder_init( &decoder, face, size, glyph, hinting,
-                        FT_LOAD_TARGET_MODE( load_flags ) );
+      decoder_funcs->init( &decoder, face, size, glyph, hinting,
+                           FT_LOAD_TARGET_MODE( load_flags ) );
 
       /* this is for pure CFFs */
       if ( load_flags & FT_LOAD_ADVANCE_ONLY )
@@ -446,25 +449,23 @@ FT_LOCAL_DEF( FT_Error )
       if ( error )
         goto Glyph_Build_Finished;
 
-      error = cff_decoder_prepare( &decoder, size, glyph_index );
+      error = decoder_funcs->prepare( &decoder, size, glyph_index );
       if ( error )
         goto Glyph_Build_Finished;
 
 #ifdef CFF_CONFIG_OPTION_OLD_ENGINE
       /* choose which CFF renderer to use */
       if ( driver->hinting_engine == FT_CFF_HINTING_FREETYPE )
-        error = cff_decoder_parse_charstrings( &decoder,
-                                               charstring,
-                                               charstring_len,
-                                               0 );
+        error = decoder_funcs->parse_charstrings( &decoder,
+                                                  charstring,
+                                                  charstring_len,
+                                                  0 );
       else
 #endif
       {
-	//TODO: change to like t1gload.c
-	//decoder->funcs.parse_charstrings
-        error = cf2_decoder_parse_charstrings( &decoder,
-                                               charstring,
-                                               charstring_len );
+	error = decoder_funcs->parse_charstrings( &decoder,
+                                                  charstring,
+                                                  charstring_len );
 
         /* Adobe's engine uses 16.16 numbers everywhere;              */
         /* as a consequence, glyphs larger than 2000ppem get rejected */
@@ -477,9 +478,9 @@ FT_LOCAL_DEF( FT_Error )
           force_scaling = TRUE;
           glyph->hint   = hinting;
 
-          error = cf2_decoder_parse_charstrings( &decoder,
-                                                 charstring,
-                                                 charstring_len );
+          error = decoder_funcs->parse_charstrings( &decoder,
+                                                    charstring,
+                                                    charstring_len );
         }
       }
 

@@ -1787,7 +1787,7 @@
   /*                                                                       */
   /*    hinting :: Whether hinting is active.                              */
   /*                                                                       */
-  static void
+  static void  //TODO(ewaldhew): why is this static?
   cff_builder_init( CFF_Builder*   builder,
                     TT_Face        face,
                     CFF_Size       size,
@@ -1835,6 +1835,9 @@
     builder->left_bearing.y = 0;
     builder->advance.x      = 0;
     builder->advance.y      = 0;
+
+    //TODO(ewaldhew): what is this even used for? (ref t1_builder_funcs)
+    //builder->funcs = cff_builder_funcs;
   }
 
 

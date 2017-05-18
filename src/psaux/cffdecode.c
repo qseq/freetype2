@@ -335,7 +335,6 @@
 #endif /* CFF_CONFIG_OPTION_OLD_ENGINE */
 
 
-
   FT_LOCAL_DEF( FT_Int )
   cff_lookup_glyph_by_stdcharcode( CFF_Font  cff,
                                    FT_Int    charcode )

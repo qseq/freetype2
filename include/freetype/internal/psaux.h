@@ -25,8 +25,9 @@
 #include FT_INTERNAL_OBJECTS_H
 #include FT_INTERNAL_TYPE1_TYPES_H
 #include FT_INTERNAL_HASH_H
+#include FT_INTERNAL_TRUETYPE_TYPES_H
 #include FT_SERVICE_POSTSCRIPT_CMAPS_H
-
+//TODO(ewaldhew): how to link CFF types ?
 
 FT_BEGIN_HEADER
 
@@ -711,6 +712,57 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
 
+#if 0
+  typedef FT_Error
+  (*CFF_Builder_Check_Points_Func)( CFF_Builder*  builder,
+                                    FT_Int        count );
+
+  typedef void
+  (*CFF_Builder_Add_Point_Func)( CFF_Builder*  builder,
+                                 FT_Pos        x,
+                                 FT_Pos        y,
+                                 FT_Byte       flag );
+  typedef FT_Error
+  (*CFF_Builder_Add_Point1_Func)( CFF_Builder*  builder,
+                                  FT_Pos        x,
+                                  FT_Pos        y );
+  typedef FT_Error
+  (*CFF_Builder_Start_Point_Func)( CFF_Builder*  builder,
+                                   FT_Pos        x,
+                                   FT_Pos        y );
+  typedef void
+  (*CFF_Builder_Close_Contour_Func)( CFF_Builder*  builder );
+
+  /* static */
+  typedef FT_Error
+  (*CFF_Builder_Add_Contour_Func)( CFF_Builder*  builder );
+
+  typedef const struct CFF_Builder_FuncsRec_*  CFF_Builder_Funcs;
+
+  typedef struct  CFF_Builder_FuncsRec_
+  {
+    /* static */
+    void
+    (*init)( CFF_Builder*   builder,
+             TT_Face        face,
+             CFF_Size       size,
+             CFF_GlyphSlot  glyph,
+             FT_Bool        hinting );
+
+    /* static */
+    void
+    (*done)( CFF_Builder*  builder );
+
+    CFF_Builder_Check_Points_Func   check_points;
+    CFF_Builder_Add_Point_Func      add_point;
+    CFF_Builder_Add_Point1_Func     add_point1;
+    CFF_Builder_Start_Point_Func    start_point;
+    CFF_Builder_Close_Contour_Func  close_contour;
+    CFF_Builder_Add_Contour_Func    add_contour;
+
+  } CFF_Builder_FuncsRec;
+#endif
+
   /*************************************************************************/
   /*                                                                       */
   /* <Structure>                                                           */
@@ -781,7 +833,7 @@ FT_BEGIN_HEADER
     void*           hints_funcs;    /* hinter-specific */
     void*           hints_globals;  /* hinter-specific */
 
-    //TODO: funcs rec
+    //CFF_Builder_FuncsRec  funcs;
 
   } CFF_Builder;
 
@@ -793,6 +845,15 @@ FT_BEGIN_HEADER
   /*****                                                               *****/
   /*************************************************************************/
   /*************************************************************************/
+
+#define CFF_MAX_OPERANDS        48
+#define CFF_MAX_SUBRS_CALLS     16  /* maximum subroutine nesting;         */
+                                    /* only 10 are allowed but there exist */
+                                    /* fonts like `HiraKakuProN-W3.ttf'    */
+                                    /* (Hiragino Kaku Gothic ProN W3;      */
+                                    /* 8.2d6e1; 2014-12-19) that exceed    */
+                                    /* this limit                          */
+#define CFF_MAX_TRANS_ELEMENTS  32
 
   /* execution context charstring zone */
 
@@ -842,14 +903,40 @@ FT_BEGIN_HEADER
 
     FT_Render_Mode     hint_mode;
 
-    //TODO: decoder callback, funcs
-
     FT_Bool            seac;
 
     CFF_SubFont        current_subfont; /* for current glyph_index */
 
   } CFF_Decoder;
 
+  typedef const struct CFF_Decoder_FuncsRec_*  CFF_Decoder_Funcs;
+
+  typedef struct  CFF_Decoder_FuncsRec_
+  {
+    void
+    (*init)( CFF_Decoder*    decoder,
+             TT_Face         face,
+             CFF_Size        size,
+             CFF_GlyphSlot   slot,
+             FT_Bool         hinting,
+             FT_Render_Mode  hint_mode );
+
+    FT_Error
+    (*prepare)( CFF_Decoder*  decoder,
+                CFF_Size      size,
+                FT_UInt       glyph_index );
+
+    FT_Error
+    (*parse_charstrings)( CFF_Decoder*  decoder,
+                          FT_Byte*      charstring_base,
+                          FT_ULong      charstring_len
+#ifdef CFF_CONFIG_OPTION_OLD_ENGINE
+//TODO(ewaldhew): seems hacky, is there a better way to do this?
+                         ,FT_Bool       in_dict
+#endif
+                          );
+
+  } CFF_Decoder_FuncsRec;
 
   /*************************************************************************/
   /*************************************************************************/
@@ -962,6 +1049,8 @@ FT_BEGIN_HEADER
 
     /* fields after this comment line were added after version 2.1.10 */
     const AFM_Parser_FuncsRec*  afm_parser_funcs;
+
+    const CFF_Decoder_FuncsRec*  cff_decoder_funcs;
 
   } PSAux_ServiceRec, *PSAux_Service;
 
