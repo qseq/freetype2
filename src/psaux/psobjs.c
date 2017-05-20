@@ -1787,7 +1787,7 @@
   /*                                                                       */
   /*    hinting :: Whether hinting is active.                              */
   /*                                                                       */
-  static void
+  FT_LOCAL_DEF( void )
   cff_builder_init( CFF_Builder*   builder,
                     TT_Face        face,
                     CFF_Size       size,
@@ -1854,7 +1854,7 @@
   /* <Input>                                                               */
   /*    builder :: A pointer to the glyph builder to finalize.             */
   /*                                                                       */
-  static void
+  FT_LOCAL_DEF( void )
   cff_builder_done( CFF_Builder*  builder )
   {
     CFF_GlyphSlot  glyph = builder->glyph;
@@ -1865,24 +1865,7 @@
   }
 
 
-  /*************************************************************************/
-  /*                                                                       */
-  /* <Function>                                                            */
-  /*    cff_compute_bias                                                   */
-  /*                                                                       */
-  /* <Description>                                                         */
-  /*    Computes the bias value in dependence of the number of glyph       */
-  /*    subroutines.                                                       */
-  /*                                                                       */
-  /* <Input>                                                               */
-  /*    in_charstring_type :: The `CharstringType' value of the top DICT   */
-  /*                          dictionary.                                  */
-  /*                                                                       */
-  /*    num_subrs          :: The number of glyph subroutines.             */
-  /*                                                                       */
-  /* <Return>                                                              */
-  /*    The bias value.                                                    */
-    /* check that there is enough space for `count' more points */
+  /* check that there is enough space for `count' more points */
   FT_LOCAL_DEF( FT_Error )
   cff_check_points( CFF_Builder*  builder,
                     FT_Int        count )
@@ -1947,7 +1930,7 @@
 
 
   /* check space for a new contour, then add it */
-  static FT_Error
+  FT_LOCAL_DEF( FT_Error )
   cff_builder_add_contour( CFF_Builder*  builder )
   {
     FT_Outline*  outline = builder->current;

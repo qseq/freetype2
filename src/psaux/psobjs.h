@@ -198,7 +198,6 @@ FT_BEGIN_HEADER
   /*************************************************************************/
   /*************************************************************************/
 
-  /* static */
   FT_LOCAL( void )
   cff_builder_init( CFF_Builder*   builder,
                     TT_Face        face,
@@ -206,7 +205,6 @@ FT_BEGIN_HEADER
                     CFF_GlyphSlot  glyph,
                     FT_Bool        hinting );
 
-  /* static */
   FT_LOCAL( void )
   cff_builder_done( CFF_Builder*  builder );
 
@@ -230,7 +228,6 @@ FT_BEGIN_HEADER
   FT_LOCAL( void )
   cff_builder_close_contour( CFF_Builder*  builder );
 
-  /* static */
   FT_LOCAL( FT_Error )
   cff_builder_add_contour( CFF_Builder*  builder );
 

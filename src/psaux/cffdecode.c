@@ -335,6 +335,55 @@
 #endif /* CFF_CONFIG_OPTION_OLD_ENGINE */
 
 
+  /*************************************************************************/
+  /*************************************************************************/
+  /*************************************************************************/
+  /**********                                                      *********/
+  /**********                                                      *********/
+  /**********             GENERIC CHARSTRING PARSING               *********/
+  /**********                                                      *********/
+  /**********                                                      *********/
+  /*************************************************************************/
+  /*************************************************************************/
+  /*************************************************************************/
+
+  /*************************************************************************/
+  /*                                                                       */
+  /* <Function>                                                            */
+  /*    cff_compute_bias                                                   */
+  /*                                                                       */
+  /* <Description>                                                         */
+  /*    Computes the bias value in dependence of the number of glyph       */
+  /*    subroutines.                                                       */
+  /*                                                                       */
+  /* <Input>                                                               */
+  /*    in_charstring_type :: The `CharstringType' value of the top DICT   */
+  /*                          dictionary.                                  */
+  /*                                                                       */
+  /*    num_subrs          :: The number of glyph subroutines.             */
+  /*                                                                       */
+  /* <Return>                                                              */
+  /*    The bias value.                                                    */
+  static FT_Int
+  cff_compute_bias( FT_Int   in_charstring_type,
+                    FT_UInt  num_subrs )
+  {
+    FT_Int  result;
+
+
+    if ( in_charstring_type == 1 )
+      result = 0;
+    else if ( num_subrs < 1240 )
+      result = 107;
+    else if ( num_subrs < 33900U )
+      result = 1131;
+    else
+      result = 32768U;
+
+    return result;
+  }
+
+
   FT_LOCAL_DEF( FT_Int )
   cff_lookup_glyph_by_stdcharcode( CFF_Font  cff,
                                    FT_Int    charcode )

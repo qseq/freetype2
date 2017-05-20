@@ -26,7 +26,6 @@
 #include "cffobjs.h"
 #include "cffload.h"
 #include "cffgload.h"
-//#include "cf2ft.h"      /* for cf2_decoder_parse_charstrings */
 
 #include "cfferrs.h"
 
@@ -40,39 +39,6 @@
 #undef  FT_COMPONENT
 #define FT_COMPONENT  trace_cffgload
 
-
-
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
-  /**********                                                      *********/
-  /**********                                                      *********/
-  /**********             GENERIC CHARSTRING PARSING               *********/
-  /**********                                                      *********/
-  /**********                                                      *********/
-  /*************************************************************************/
-  /*************************************************************************/
-  /*************************************************************************/
-
-
-  static FT_Int
-  cff_compute_bias( FT_Int   in_charstring_type,
-                    FT_UInt  num_subrs )
-  {
-    FT_Int  result;
-
-
-    if ( in_charstring_type == 1 )
-      result = 0;
-    else if ( num_subrs < 1240 )
-      result = 107;
-    else if ( num_subrs < 33900U )
-      result = 1131;
-    else
-      result = 32768U;
-
-    return result;
-  }
 
 FT_LOCAL_DEF( FT_Error )
   cff_get_glyph_data( TT_Face    face,
@@ -175,11 +141,13 @@ FT_LOCAL_DEF( FT_Error )
     FT_Int       glyph_index;
     CFF_Font     cff = (CFF_Font)face->other;
 
+    PSAux_Service            psaux         = cff->psaux;
+    const CFF_Decoder_Funcs  decoder_funcs = psaux->cff_decoder_funcs;
 
     *max_advance = 0;
 
     /* Initialize load decoder */
-    cff_decoder_init( &decoder, face, 0, 0, 0, 0 );
+    decoder_funcs->init( &decoder, face, 0, 0, 0, 0 );
 
     decoder.builder.metrics_only = 1;
     decoder.builder.load_points  = 0;
@@ -198,12 +166,12 @@ FT_LOCAL_DEF( FT_Error )
                                   &charstring, &charstring_len );
       if ( !error )
       {
-        error = cff_decoder_prepare( &decoder, size, glyph_index );
+        error = decoder_funcs->prepare( &decoder, size, glyph_index );
         if ( !error )
-          error = cff_decoder_parse_charstrings( &decoder,
-                                                 charstring,
-                                                 charstring_len,
-                                                 0 );
+          error = decoder_funcs->parse_charstrings( &decoder,
+                                                    charstring,
+                                                    charstring_len,
+                                                    0 );
 
         cff_free_glyph_data( face, &charstring, &charstring_len );
       }
@@ -463,7 +431,7 @@ FT_LOCAL_DEF( FT_Error )
       else
 #endif
       {
-	error = decoder_funcs->parse_charstrings( &decoder,
+        error = decoder_funcs->parse_charstrings( &decoder,
                                                   charstring,
                                                   charstring_len );
 
