@@ -712,7 +712,8 @@ FT_BEGIN_HEADER
   /*************************************************************************/
 
 
-#if 0
+#if 1
+  //TODO(ewaldhew): use these in cf2_interp
   typedef FT_Error
   (*CFF_Builder_Check_Points_Func)( CFF_Builder*  builder,
                                     FT_Int        count );
@@ -833,7 +834,7 @@ FT_BEGIN_HEADER
     void*           hints_funcs;    /* hinter-specific */
     void*           hints_globals;  /* hinter-specific */
 
-    //CFF_Builder_FuncsRec  funcs;
+    CFF_Builder_FuncsRec  funcs;
 
   } CFF_Builder;
 
