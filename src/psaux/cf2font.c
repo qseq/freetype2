@@ -261,6 +261,20 @@
     FT_Fixed*  normalizedV    = NULL;
 
 
+    /* retrieve cffload from list of current modules */
+    {
+      FT_Service_CFFLoad  cffload;
+
+
+      FT_FACE_FIND_GLOBAL_SERVICE( face, cffload, CFF_LOAD );
+      if ( !cffload )
+      {
+        FT_ERROR(( "cf2_font_setup:"
+                   " the `cffload' module is not available\n" ));
+        return FT_THROW( Unimplemented_Feature );
+      }
+    }
+    
     /* clear previous error */
     font->error = FT_Err_Ok;
 
@@ -287,16 +301,16 @@
       if ( font->error )
         return;
 
-      if ( cff_blend_check_vector( &subFont->blend,
+      if ( cff_blend_check_vector( &subFont->blend, //TODO(ewaldhew):cffload
                                    subFont->private_dict.vsindex,
                                    lenNormalizedV,
                                    normalizedV ) )
       {
         /* blend has changed, reparse */
-        cff_load_private_dict( decoder->cff,
-                               subFont,
-                               lenNormalizedV,
-                               normalizedV );
+        cffload->load_private_dict( decoder->cff,
+                                    subFont,
+                                    lenNormalizedV,
+                                    normalizedV );
         needExtraSetup = TRUE;
       }
 #endif
