@@ -454,10 +454,13 @@
                            CF2_UInt     *len,
                            FT_Fixed*    *vec )
   {
-    FT_ASSERT( decoder && decoder->builder.face );
+    TT_Face  face = decoder->builder.face;
+    FT_ASSERT( decoder && face );
     FT_ASSERT( vec && len );
 
-    return cff_get_var_blend( decoder->builder.face, len, NULL, vec, NULL );
+    FT_Service_MultiMasters  mm = (FT_Service_MultiMasters)face->mm;
+    
+    return mm->get_var_blend( face, len, NULL, vec, NULL );
   }
 #endif
 

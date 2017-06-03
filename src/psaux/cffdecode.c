@@ -2251,11 +2251,24 @@
     CFF_SubFont   sub     = &cff->top_font;
     FT_Error      error   = FT_Err_Ok;
 
+    /* retrieve cffload from list of current modules */
+    {
+      FT_Service_CFFLoad  cffload;
+
+
+      FT_FACE_FIND_GLOBAL_SERVICE( face, cffload, CFF_LOAD );
+      if ( !cffload )
+      {
+        FT_ERROR(( "cff_decoder_prepare:"
+                   " the `cffload' module is not available\n" ));
+        return FT_THROW( Unimplemented_Feature );
+      }
+    }
 
     /* manage CID fonts */
     if ( cff->num_subfonts )
     {
-      FT_Byte  fd_index = cff_fd_select_get( &cff->fd_select, glyph_index );
+      FT_Byte  fd_index = cffload->fd_select_get( &cff->fd_select, glyph_index );
 
 
       if ( fd_index >= cff->num_subfonts )

@@ -86,19 +86,19 @@ FT_BEGIN_HEADER
   FT_LOCAL( FT_Byte )
   cff_fd_select_get( CFF_FDSelect  fdselect,
                      FT_UInt       glyph_index );
-  //TODO(ewaldhew)!!
+
   FT_LOCAL( FT_Bool )
   cff_blend_check_vector( CFF_Blend  blend,
                           FT_UInt    vsindex,
                           FT_UInt    lenNDV,
                           FT_Fixed*  NDV );
-  //!!
+
   FT_LOCAL( FT_Error )
   cff_blend_build_vector( CFF_Blend  blend,
                           FT_UInt    vsindex,
                           FT_UInt    lenNDV,
                           FT_Fixed*  NDV );
-  //!!
+
   FT_LOCAL( void )
   cff_blend_clear( CFF_SubFont  subFont );
 

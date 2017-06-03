@@ -42,7 +42,6 @@
 
 #include "cf2ft.h"
 #include "cf2blues.h"
-//#include "cffload.h" //TODO(ewaldhew): link
 
 
 FT_BEGIN_HEADER
@@ -111,6 +110,8 @@ FT_BEGIN_HEADER
                                            /* counterclockwise winding */
 
     CF2_BluesRec  blues;                         /* computed zone data */
+
+    const void*  cffload;                  /* Pointer to cff functions */
   };
 
 

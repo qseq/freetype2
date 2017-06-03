@@ -1099,7 +1099,9 @@
 
     (FT_Get_Standard_Encoding_Func) cff_get_standard_encoding,
     (FT_Load_Private_Dict_Func)     cff_load_private_dict,
-    (FT_FD_Select_Get_Func)         cff_fd_select_get
+    (FT_FD_Select_Get_Func)         cff_fd_select_get,
+    (FT_Blend_Check_Vector_Func)    cff_blend_check_vector,
+    (FT_Blend_Build_Vector_Func)    cff_blend_build_vector
   )
 
   /*************************************************************************/

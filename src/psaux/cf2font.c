@@ -273,8 +273,10 @@
                    " the `cffload' module is not available\n" ));
         return FT_THROW( Unimplemented_Feature );
       }
+
+      font->cffload = cffload;
     }
-    
+
     /* clear previous error */
     font->error = FT_Err_Ok;
 
@@ -301,10 +303,10 @@
       if ( font->error )
         return;
 
-      if ( cff_blend_check_vector( &subFont->blend, //TODO(ewaldhew):cffload
-                                   subFont->private_dict.vsindex,
-                                   lenNormalizedV,
-                                   normalizedV ) )
+      if ( cffload->blend_check_vector( &subFont->blend,
+                                        subFont->private_dict.vsindex,
+                                        lenNormalizedV,
+                                        normalizedV ) )
       {
         /* blend has changed, reparse */
         cffload->load_private_dict( decoder->cff,

@@ -47,9 +47,6 @@
 
 #include "cf2error.h"
 
-//TODO(ewaldhew): link
-//#include "cffload.h"
-
 
   /*************************************************************************/
   /*                                                                       */
@@ -681,15 +678,15 @@
           }
 
           /* check cached blend vector */
-          if ( cff_blend_check_vector( &font->blend,
-                                       font->vsindex,
-                                       font->lenNDV,
-                                       font->NDV ) )
+          if ( font->cffload->blend_check_vector( &font->blend,
+                                                  font->vsindex,
+                                                  font->lenNDV,
+                                                  font->NDV ) )
           {
-            lastError = cff_blend_build_vector( &font->blend,
-                                                font->vsindex,
-                                                font->lenNDV,
-                                                font->NDV );
+            lastError = font->cffload->blend_build_vector( &font->blend,
+                                                           font->vsindex,
+                                                           font->lenNDV,
+                                                           font->NDV );
             if ( lastError )
               goto exit;
           }
