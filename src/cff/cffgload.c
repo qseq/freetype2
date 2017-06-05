@@ -142,7 +142,7 @@
     FT_Int       glyph_index;
     CFF_Font     cff = (CFF_Font)face->other;
 
-    PSAux_Service            psaux         = cff->psaux;
+    PSAux_Service            psaux         = (PSAux_Service)face->psaux;
     const CFF_Decoder_Funcs  decoder_funcs = psaux->cff_decoder_funcs;
 
     *max_advance = 0;
@@ -202,7 +202,7 @@
     FT_Bool      hinting, scaled, force_scaling;
     CFF_Font     cff  = (CFF_Font)face->extra.data;
 
-    PSAux_Service            psaux         = cff->psaux;
+    PSAux_Service            psaux         = face->psaux;
     const CFF_Decoder_Funcs  decoder_funcs = psaux->cff_decoder_funcs;
 
     FT_Matrix    font_matrix;
@@ -489,7 +489,7 @@
   Glyph_Build_Finished:
       /* save new glyph tables, if no error */
       if ( !error )
-        cff_builder_done( &decoder.builder );
+        decoder.builder.funcs.done( &decoder.builder );
       /* XXX: anything to do for broken glyph entry? */
     }
 

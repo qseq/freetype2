@@ -524,6 +524,7 @@
       error = FT_THROW( Missing_Module );
       goto Exit;
     }
+    face->psaux = psaux;
 
     FT_TRACE2(( "CFF driver\n" ));
 
@@ -626,7 +627,6 @@
 
       cff->pshinter = pshinter;
       cff->psnames  = psnames;
-      cff->psaux    = psaux;
 
       cffface->face_index = face_index & 0xFFFF;
 

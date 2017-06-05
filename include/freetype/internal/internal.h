@@ -47,6 +47,8 @@
 
 #define FT_INTERNAL_AUTOHINT_H            <freetype/internal/autohint.h>
 
+#define FT_INTERNAL_CFF_TYPES_H           <freetype/internal/cfftypes.h>
+
 
 #if defined( _MSC_VER )      /* Visual C++ (and Intel C++) */
 

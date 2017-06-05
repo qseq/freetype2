@@ -426,6 +426,8 @@
     return -1;
   }
 
+#ifdef CFF_CONFIG_OPTION_OLD_ENGINE
+
   /*************************************************************************/
   /*                                                                       */
   /* <Function>                                                            */
@@ -2181,6 +2183,8 @@
     FT_TRACE4(( "cff_decoder_parse_charstrings: stack overflow\n" ));
     return FT_THROW( Stack_Overflow );
   }
+
+#endif /* CFF_CONFIG_OPTION_OLD_ENGINE */
 
 
   /*************************************************************************/
