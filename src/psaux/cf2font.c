@@ -260,22 +260,7 @@
     CF2_UInt   lenNormalizedV = 0;
     FT_Fixed*  normalizedV    = NULL;
 
-
-    /* retrieve cffload from list of current modules */
-    {
-      FT_Service_CFFLoad  cffload;
-
-
-      FT_FACE_FIND_GLOBAL_SERVICE( face, cffload, CFF_LOAD );
-      if ( !cffload )
-      {
-        FT_ERROR(( "cf2_font_setup:"
-                   " the `cffload' module is not available\n" ));
-        return FT_THROW( Unimplemented_Feature );
-      }
-
-      font->cffload = cffload;
-    }
+    FT_Service_CFFLoad  cffload = (FT_Service_CFFLoad)font->cffload;
 
     /* clear previous error */
     font->error = FT_Err_Ok;

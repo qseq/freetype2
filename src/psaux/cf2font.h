@@ -40,6 +40,8 @@
 #define CF2FONT_H_
 
 
+#include FT_SERVICE_CFF_TABLE_LOAD_H
+
 #include "cf2ft.h"
 #include "cf2blues.h"
 
@@ -111,7 +113,7 @@ FT_BEGIN_HEADER
 
     CF2_BluesRec  blues;                         /* computed zone data */
 
-    const void*  cffload;                  /* Pointer to cff functions */
+    FT_Service_CFFLoad  cffload;                  /* Pointer to cff functions */
   };
 
 

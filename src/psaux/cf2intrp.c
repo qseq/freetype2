@@ -38,6 +38,7 @@
 
 #include "cf2ft.h"
 #include FT_INTERNAL_DEBUG_H
+#include FT_SERVICE_CFF_TABLE_LOAD_H
 
 #include "cf2glue.h"
 #include "cf2font.h"
