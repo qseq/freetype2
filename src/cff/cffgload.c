@@ -24,10 +24,10 @@
 #include FT_OUTLINE_H
 #include FT_CFF_DRIVER_H
 
-#include "cffobjs.h"
 #include "cffload.h"
 #include "cffgload.h"
 
+#include FT_INTERNAL_CFF_OBJECTS_TYPES_H
 #include "cfferrs.h"
 
 
@@ -403,7 +403,7 @@
 
 
       decoder_funcs->init( &decoder, face, size, glyph, hinting,
-                           FT_LOAD_TARGET_MODE( load_flags )
+                           FT_LOAD_TARGET_MODE( load_flags ),
                            cff_get_glyph_data,
                            cff_free_glyph_data );
 

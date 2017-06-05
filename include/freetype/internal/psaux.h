@@ -28,6 +28,8 @@
 #include FT_INTERNAL_TRUETYPE_TYPES_H
 #include FT_SERVICE_POSTSCRIPT_CMAPS_H
 #include FT_INTERNAL_CFF_TYPES_H
+#include FT_INTERNAL_CFF_OBJECTS_TYPES_H
+
 
 FT_BEGIN_HEADER
 
@@ -814,7 +816,7 @@ FT_BEGIN_HEADER
   {
     FT_Memory       memory;
     TT_Face         face;
-    FT_GlyphSlot    glyph;
+    CFF_GlyphSlot   glyph;
     FT_GlyphLoader  loader;
     FT_Outline*     base;
     FT_Outline*     current;
