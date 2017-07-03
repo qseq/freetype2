@@ -1299,6 +1299,8 @@
                   FT_Byte*    start,
                   FT_Byte*    limit )
   {
+    PSAux_Service  psaux;
+
     FT_Byte*    p       = start;
     FT_Error    error   = FT_Err_Ok;
     FT_Library  library = parser->library;
@@ -1398,10 +1400,10 @@
           goto Exit;
         }
         
-        error = psaux->cff_decoder_funcs->parse_charstrings( &decoder,
-                                                             charstring_base,
-                                                             charstring_len,
-                                                             1 );
+        error = psaux->cff_decoder_funcs->parse_charstrings_old( &decoder,
+                                                                 charstring_base,
+                                                                 charstring_len,
+                                                                 1 );
 
         /* Now copy the stack data in the temporary decoder object,    */
         /* converting it back to charstring number representations     */
